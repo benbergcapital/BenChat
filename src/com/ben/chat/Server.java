@@ -47,8 +47,8 @@ public class Server {
 	
 	public void start() {
 		keepGoing = true;
-		KeepAlive k = new KeepAlive(this);
-		k.start();
+	//	KeepAlive k = new KeepAlive(this);
+	//	k.start();
 		/* create socket server and wait for connection requests */
 		try 
 		{
@@ -359,7 +359,8 @@ public class Server {
 					broadcastNudge(username+" sent a nudge");
 					break;
 				case ChatMessage.PING:
-					writeMsg("SYSTEM-UP",null,null);
+					writeHeartbeat(cm);
+				
 				
 					break;	
 				case ChatMessage.TYPING:
@@ -451,6 +452,27 @@ public class Server {
 			}
 			return true;
 		}
+		private boolean writeHeartbeat(ChatMessage m)
+		{
+		if(!socket.isConnected()) {
+			close();
+			return false;
+		}
+	
+		
+		
+		// write the message to the stream
+		try {
+			sOutput.writeObject(m);
+		}
+		// if an error occurs, do not abort just inform the user
+		catch(IOException e) {
+			display("Error sending message to " + username);
+			display(e.toString());
+		}
+		return true;
+		}
+		
 		private boolean writeMsgNudge(String msg) {
 			// if Client is still connected send the message to it
 			if(!socket.isConnected()) {

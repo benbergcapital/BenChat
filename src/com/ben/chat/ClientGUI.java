@@ -306,7 +306,7 @@ public class ClientGUI extends JFrame implements ActionListener {
 		add(southPanel, BorderLayout.SOUTH);
 	
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setSize(400, 400);
+		setSize(500, 400);
 		setVisible(true);
 		
 		/*
@@ -622,11 +622,11 @@ login(false);
 			tfPort.setEditable(false);
 			// Action listener for when the user enter a message
 			tf.addActionListener(this);
-			
+			lblstatus.setText("Status : Connected");
 			if (connected && !reconnect)
 			{
 				client.sendMessage(new ChatMessage(ChatMessage.WHOISIN, ""));
-				lblstatus.setText("Status : Connected");
+			
 				KeepAliveClient k = new KeepAliveClient(client);
 				k.start();
 			}
@@ -639,7 +639,7 @@ login(false);
 	public static void main(String[] args) {
 	try{
 	
-		new ClientGUI("localhost", 5124);
+		new ClientGUI("ben512.no-ip.org", 5124);
 		
 	}
 	catch (Exception e)

@@ -132,7 +132,25 @@ Client(String server, int port, String username) {
 			}
 		}
 	}
-	
+	public boolean sendHeartbeat()  {
+		 Long lDateTime = new Date().getTime();
+		ChatMessage cm = new ChatMessage(ChatMessage.PING,lDateTime);
+		
+		try {
+			sOutput.writeObject(cm);
+			return true;
+		}
+		catch(IOException e) {
+			
+			try {
+			//	display("Exception writing to server: " + e);
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			return false;
+		}
+	}
 	public void login()
 	{
 		
@@ -340,14 +358,11 @@ Client(String server, int port, String username) {
 					break;		
 				case ChatMessage.PING:
 					receivingTime = _receivingTime;
-					long lDateTime = new Date().getTime();
-					long delta =  lDateTime - _receivingTime;
+					Long lDateTime = new Date().getTime();
+					Long delta =  lDateTime - _receivingTime;
 									
-					
 					cg.updateLatency(delta);
-					
-					
-					
+										
 					
 					break;	
 					}
